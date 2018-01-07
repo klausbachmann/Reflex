@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour {
     bool waiting = false;
     public int circlesHitted;
     public int circlesMissed;
+    bool gameOver = false;
 
     public Text txtHits, txtMissed, txtAccuracy;
     
@@ -26,7 +27,13 @@ public class GameController : MonoBehaviour {
 
     public void miss() {
         circlesMissed++;
-        txtMissed.text = "Missed: " + circlesHitted.ToString();    
+        txtMissed.text = "Missed: " + circlesMissed.ToString();
+
+        if (circlesMissed == 5) {
+            // GAME OVER
+            gameOver = true;
+            print("GAME OVER");
+        }
     }
 
     public IEnumerator wait()
@@ -45,14 +52,17 @@ public class GameController : MonoBehaviour {
 
     }
 
-    void FixedUpdate(){
-        if (!waiting) {
-            StartCoroutine(wait());
-        }
-    }
 
     // Update is called once per frame
     void Update () {
-		
-	}
+        if (gameOver)
+        {
+            return;
+        }
+
+        if (!waiting)
+        {
+            StartCoroutine(wait());
+        }
+    }
 }
